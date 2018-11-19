@@ -98,4 +98,30 @@ bool Guidance::checkObstacle() {
  * @brief      guidance logic to run the robot
  */
 void Guidance::moveRobot() {
+  // publish at 10 Hz
+  ros::Rate loop(10);
+  // keep running until ros dies
+  while (ros::ok()) {
+    // check obstacle
+    if (checkObstacle()) {
+      // ros out obstacle found
+      ROS_INFO("Obstacle present turning");
+      // Stop the robot
+      msg.linear.x = 0.0;
+      // Turn the robot
+      msg.angular.z = angularVel;
+    } else {
+      ROS_INFO("Moving Forward");
+      // Stop turning
+      msg.angular.z = 0.0;
+      // set forward speed
+      msg.linear.x = linearVel;
+    }
+
+    // Publish the vel message
+    pubVelocities.publish(msg);
+
+    ros::spinOnce();
+    loop.sleep();
+  }
 }
