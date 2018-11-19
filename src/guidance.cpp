@@ -42,10 +42,10 @@ Guidance::Guidance() {
   angularVel = 1.0;
   // Publish the velocity
   pubVelocities = nh.advertise <geometry_msgs::Twist>
-  ("/mobile_base/commands/velocity",1000);
+  ("/mobile_base/commands/velocity", 1000);
   // Subscribe to laser scan to detect obstacles
   sub = nh.subscribe<sensor_msgs::LaserScan> ("/scan", 1000,
-      &Guidance::laserCallback,this);
+      &Guidance::laserCallback, this);
   // define initial velocity
   msg.linear.x = 0.0;
   msg.linear.y = 0.0;
