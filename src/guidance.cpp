@@ -77,7 +77,13 @@ Guidance::~Guidance() {
  * @param      msg, the message
  */
 void Guidance::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg) {
- 
+  for (int i = 0; i < msg->ranges.size(); ++i) {
+    if (msg->ranges[i] < 0.8) {
+      collision = true;
+      return;
+    }
+  }
+  collision = false;
 }
 
 /**
@@ -85,6 +91,7 @@ void Guidance::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg) {
  * @return     of type bool return when obstacle is detected
  */
 bool Guidance::checkObstacle() {
+  return collision;
 }
 
 /**
