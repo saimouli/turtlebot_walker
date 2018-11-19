@@ -1,5 +1,7 @@
 <launch>
 
+    <arg name="record" default="false"/>
+
     <include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch">
     </include>
 
@@ -10,5 +12,13 @@
 	output="screen"
 	launch-prefix="gnome-terminal --command"
     />
+
+    <node
+	pkg="rosbag"
+	name="record"
+	type="record"
+	args="-a -x /camera/(.*) -O $(find turtlebot_roomba)/results/	     turtlebotRecord.bag"
+	if="$(arg record)"
+     />
 
 </launch>
