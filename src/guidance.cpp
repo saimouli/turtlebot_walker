@@ -37,14 +37,39 @@
  * @brief      Constructs the object.
  */
 Guidance::Guidance() {
- 
+  // define lin. and angular speeds
+  linearVel = 0.2;
+  angularVel = 1.0;
+  // Publish the velocity
+  pubVelocities = nh.advertise <geometry_msgs::Twist>
+  ("/mobile_base/commands/velocity",1000);
+  // Subscribe to laser scan to detect obstacles
+  sub = nh.subscribe<sensor_msgs::LaserScan> ("/scan", 1000,
+      &Guidance::laserCallback,this);
+  // define initial velocity
+  msg.linear.x = 0.0;
+  msg.linear.y = 0.0;
+  msg.linear.z = 0.0;
+  msg.angular.x = 0.0;
+  msg.angular.y = 0.0;
+  msg.angular.z = 0.0;
+  // stop the publisher
+  pubVelocities.publish(msg);
 }
 
 /**
  * @brief      Class Destructor
  */
 Guidance::~Guidance() {
- 
+  // Stop the turtlebot at the end of the program
+  msg.linear.x = 0.0;
+  msg.linear.y = 0.0;
+  msg.linear.z = 0.0;
+  msg.angular.x = 0.0;
+  msg.angular.y = 0.0;
+  msg.angular.z = 0.0;
+  // publish the turtlebot
+  pubVelocities.publish(msg);
 }
 
 /**
