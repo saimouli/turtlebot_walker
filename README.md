@@ -15,7 +15,8 @@ To install follow this [link](http://wiki.ros.org/kinetic/Installation)
 - Turtlebot packages 
 To install turtlebot, type the following:
 ```
-sudo apt-get install ros-kinetic-turtlebot-*
+sudo apt-get install ros-kinetic-turtlebot-gazebo 
+ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-rviz-launchers
 ```
 
 # Building package 
@@ -57,6 +58,12 @@ Record the rostopics using the following command with the launch file:
 roslaunch turtlebot_walker turtlebotDemo.launch record:=true
 ```
 recorded bag file will be stored in the results folder 
+
+To record for a specific time 
+```
+roslaunch turtlebot_walker turtlebotDemo.launch record:=true secs:=20
+```
+In the above case rosbag will record for 20 seconds
 
 # Playing bag files 
 navigate to the results folder 
